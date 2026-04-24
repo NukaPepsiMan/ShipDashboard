@@ -13,7 +13,11 @@ return new class extends Migration
     {
         Schema::create('tracking_events', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->foreignId('shipment_id')->constrained()->cascadeOnDelete(); // FK che collega l'evento alla spedizione 
+            $table->string('location'); // Luogo dell'evento
+            $table->string('description'); // Descrizione
+            $table->timestamp('event_time'); // Stato Evento
+            $table->timestamps(); // Crea created_at e updated_at
         });
     }
 
