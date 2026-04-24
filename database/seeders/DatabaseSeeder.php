@@ -23,12 +23,6 @@ class DatabaseSeeder extends Seeder
         ]);
 
         //Popolo il DB con i dati generati dai factory
-        Shipment::factory(3)->create()->each(
-            function (Shipment $shipment) {
-                TrackingEvent::factory(3)->create([
-                    'shipment_id' => $shipment->id
-                ]);
-            }
-        );
+        Shipment::factory(3)->hasTrackingEvents(3)->create();
     }
 }
