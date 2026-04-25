@@ -11,7 +11,6 @@ class TrackingEvent extends Model
     use HasFactory;
 
     protected $fillable = [
-        'shipment_id',
         'location',
         'description',
         'status',

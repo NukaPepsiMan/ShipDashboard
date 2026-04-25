@@ -2,17 +2,17 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Shipment extends Model
 {
     /** @use HasFactory<\Database\Factories\ShipmentFactory> */
-    use HasFactory;
+    use HasFactory, HasUuids;
 
     protected $fillable = [
-        'tracking_number',
-        'recipent_name',
+        'recipient_name',
         'address',
         'weight',
         'departure_date',
@@ -20,6 +20,14 @@ class Shipment extends Model
         'status'
     ];
 
+    /**
+     *  Uso il trait HasUuids per dire a laravel 
+     *  di valorizzare automaticamente questo campo
+     * 
+     *  */ 
+    public function uniqueIds() {
+        return ['tracking_number'];
+    }
 
     // Una spedizone può avere molti eventi
     public function trackingEvents() {

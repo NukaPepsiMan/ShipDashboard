@@ -20,7 +20,6 @@ class ShipmentFactory extends Factory
     public function definition(): array
     {
 
-        $tracking_number = Str::uuid();
         $recipient_name = $this->faker->name();
         $address = $this->faker->address();
         $weight = $this->faker->randomFloat(2, 0.5, 50);
@@ -29,7 +28,6 @@ class ShipmentFactory extends Factory
         $status = $this->faker->randomElement(DeliveryStatus::class);
 
         return [
-            'tracking_number' => $tracking_number,
             'recipient_name' => $recipient_name,
             'address' => $address,
             'weight' => $weight,
