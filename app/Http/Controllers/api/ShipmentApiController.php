@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreShipmentRequest;
 use App\Http\Resources\ShipmentResource;
 use App\Models\Shipment;
 use Illuminate\Http\Request;
@@ -20,9 +21,9 @@ class ShipmentApiController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        //
+    public function store(StoreShipmentRequest $request) {
+        $shipment = Shipment::create($request->validated());
+        return ShipmentResource::make($shipment);
     }
 
     /**
@@ -47,6 +48,7 @@ class ShipmentApiController extends Controller
      */
     public function destroy(Shipment $shipment)
     {
-        //
+        $shipment->delete();
+        return response()->noContent();
     }
 }
