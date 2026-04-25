@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreShipmentRequest;
+use App\Http\Requests\UpdateShipmentRequest;
 use App\Http\Resources\ShipmentResource;
 use App\Models\Shipment;
 use Illuminate\Http\Request;
@@ -13,8 +14,7 @@ class ShipmentApiController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
+    public function index() {
         return ShipmentResource::collection(Shipment::paginate(10));
     }
 
@@ -29,8 +29,7 @@ class ShipmentApiController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Shipment $shipment)
-    {
+    public function show(Shipment $shipment) {
         $shipment->load('trackingEvents');
         return ShipmentResource::make($shipment);
     }
@@ -38,16 +37,15 @@ class ShipmentApiController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Shipment $shipment)
-    {
-        //
+    public function update(UpdateShipmentRequest $request, Shipment $shipment) {
+        $shipment->update($request->validated());
+        return ShipmentResource::make($shipment); 
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Shipment $shipment)
-    {
+    public function destroy(Shipment $shipment) {
         $shipment->delete();
         return response()->noContent();
     }
