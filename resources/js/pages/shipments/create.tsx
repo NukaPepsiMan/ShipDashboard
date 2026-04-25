@@ -7,9 +7,9 @@ import { Input } from "@/components/ui/input"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Head, Link, useForm } from "@inertiajs/react"
 import {format} from 'date-fns'
+import {it} from 'date-fns/locale'
 import { error } from "console"
 import { CalendarIcon } from "lucide-react"
-import React from "react"
 
 
 export default function Create(){
@@ -28,7 +28,17 @@ export default function Create(){
         post('/shipments');
     }
 
-    const [date, setDate] = React.useState<Date>()
+    const parseDate = (dateString: string) => {
+        return dateString ? new Date(dateString) : undefined;
+    }
+
+    const formatDate = (date: Date | undefined) => {
+        return date ? format(date, 'yyyy-MM-dd') : '';
+    }
+
+    const displayDate = (dateString: string) => {
+        return dateString ? format(new Date(dateString), "PPP", {locale: it}) : <span>Seleziona una data</span>;
+    }
 
     return (
         <>
@@ -84,14 +94,15 @@ export default function Create(){
                                                 id="departure_date"
                                                 className="justify-start font-normal"
                                             >
-                                            <CalendarIcon />
+                                                <CalendarIcon />
+                                                {displayDate(data.departure_date)}
                                             </Button>
                                         </PopoverTrigger>
                                         <PopoverContent>
                                             <Calendar
                                                 mode="single"
-                                                selected={date}
-                                                onSelect={setDate}
+                                                selected={parseDate(data.departure_date)}
+                                                onSelect={(date) => setData('departure_date', formatDate(date))}
                                                 captionLayout="dropdown"
                                             />
                                         </PopoverContent>
@@ -107,14 +118,15 @@ export default function Create(){
                                                 className="justify-start font-normal"
                                             >
                                                 <CalendarIcon />
+                                                {displayDate(data.delivery_date)}
                                             </Button>
                                         </PopoverTrigger>
                                         <PopoverContent >
                                             <Calendar
                                                 mode="single"
-                                                selected={date}
-                                                onSelect={setDate}
-                                                defaultMonth={date}
+                                                selected={parseDate(data.delivery_date)}
+                                                onSelect={(date) => setData('delivery_date', formatDate(date))}
+                                                locale={it}
                                                 captionLayout="dropdown"
                                             />
                                         </PopoverContent>
