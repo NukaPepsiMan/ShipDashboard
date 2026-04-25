@@ -2,11 +2,13 @@ import InputError from "@/components/input-error"
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Field, FieldGroup, FieldLabel } from "@/components/ui/field"
+import { Field, FieldGroup, FieldLabel, FieldSet } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { Head, useForm } from "@inertiajs/react"
+import { Head, Link, useForm } from "@inertiajs/react"
+import {format} from 'date-fns'
 import { error } from "console"
+import { CalendarIcon } from "lucide-react"
 import React from "react"
 
 
@@ -60,7 +62,6 @@ export default function Create(){
                                     />
                                 <InputError message={errors.address}/>
                             </Field>
-                            
                             <Field>
                                 <FieldLabel>Peso (Kg)</FieldLabel>
                                 <Input 
@@ -73,35 +74,63 @@ export default function Create(){
                                     />
                                 <InputError message={errors.weight}/>
                             </Field>
-
-                            <Field>
-                                <FieldLabel>Data di partenza</FieldLabel>
-                                <Popover>
-                                    <PopoverTrigger asChild>
-                                        <Button variant="outline">
-                                            {date ? date.toLocaleDateString() : "Seleziona una data"}
-                                        </Button>
-                                    </PopoverTrigger>
-
-                                    <PopoverContent  className="overflow-visible">
-                                        <Calendar
-                                            mode="single"
-                                            selected={date}
-                                            onSelect={setDate}
-                                            captionLayout="dropdown"
-                                        />
-                                    </PopoverContent>
-                                </Popover>
+                            <Field orientation="horizontal">
+                                <Field>
+                                    <FieldLabel>Data di partenza</FieldLabel>
+                                    <Popover>
+                                        <PopoverTrigger asChild>
+                                            <Button
+                                                variant="outline"
+                                                id="departure_date"
+                                                className="justify-start font-normal"
+                                            >
+                                            <CalendarIcon />
+                                            </Button>
+                                        </PopoverTrigger>
+                                        <PopoverContent>
+                                            <Calendar
+                                                mode="single"
+                                                selected={date}
+                                                onSelect={setDate}
+                                                captionLayout="dropdown"
+                                            />
+                                        </PopoverContent>
+                                    </Popover>
+                                </Field>
+                                <Field>
+                                    <FieldLabel>Data di consegna</FieldLabel>
+                                    <Popover>
+                                        <PopoverTrigger asChild>
+                                            <Button
+                                                variant="outline"
+                                                id="date-picker-simple"
+                                                className="justify-start font-normal"
+                                            >
+                                                <CalendarIcon />
+                                            </Button>
+                                        </PopoverTrigger>
+                                        <PopoverContent >
+                                            <Calendar
+                                                mode="single"
+                                                selected={date}
+                                                onSelect={setDate}
+                                                defaultMonth={date}
+                                                captionLayout="dropdown"
+                                            />
+                                        </PopoverContent>
+                                    </Popover>
+                                </Field>
                             </Field>
-
-                            <Field>
-                                <FieldLabel>Data di consegna</FieldLabel>
-                            </Field>
+                            
                         </FieldGroup>
                     </CardContent>
-                    <CardFooter>
-                        <Button>Annulla</Button>
-                        <Button>Crea</Button>
+                    <CardFooter className="justify-end pt-4 gap-4">
+                        <Button variant="outline" asChild>
+                           <Link href="/shipments">Annulla</Link>  
+                        </Button>
+                        <Button type="submit" disabled={processing}>
+                            Crea Spedizone
+                        </Button>
                     </CardFooter>
                 </Card>
             </div>
