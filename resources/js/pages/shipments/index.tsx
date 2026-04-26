@@ -1,12 +1,16 @@
+import InputError from "@/components/input-error";
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Combobox, ComboboxContent, ComboboxEmpty, ComboboxInput, ComboboxItem, ComboboxList } from "@/components/ui/combobox";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Head, router } from "@inertiajs/react";
-import { MoreHorizontalIcon, PackageIcon, SearchIcon, TrashIcon } from "lucide-react";
+import { CalendarIcon, MoreHorizontalIcon, PackageIcon, SearchIcon, TrashIcon } from "lucide-react";
 
 
 interface Shipment {
@@ -24,6 +28,13 @@ interface Props {
     shipments: Shipment[];
 }
 
+const enumStatus = [
+    "In Attesa",
+    "In Transito",
+    "Cancellato",
+    "Consegnato"
+  ] as const
+
 
 export default function index({shipments = []}: Props) {
 
@@ -39,15 +50,74 @@ export default function index({shipments = []}: Props) {
                     </CardHeader>
                     <CardContent>
                         <FieldGroup>
-                            <Field className="max-w">
-                                <InputGroup>
-                                    <InputGroupInput id="inline-start-input" placeholder="Cerca per tracking, destinatario o indirizzo..." />
-                                    <InputGroupAddon align="inline-start">
-                                    <SearchIcon className="text-muted-foreground" />
-                                    </InputGroupAddon>
-                                </InputGroup>
+                            <Field orientation={"horizontal"}>
+                                <Field className="max-w-full">
+                                    <InputGroup>
+                                        <InputGroupInput id="inline-start-input" placeholder="Cerca per tracking, destinatario o indirizzo..." />
+                                        <InputGroupAddon align="inline-start">
+                                        <SearchIcon className="text-muted-foreground" />
+                                        </InputGroupAddon>
+                                    </InputGroup>
+                                </Field>
+                                <Field className="max-w-1/8">
+                                    <Combobox items={enumStatus}>
+                                        <ComboboxInput placeholder="Seleziona stato" showClear />
+                                        <ComboboxContent>
+                                            <ComboboxEmpty>No items found.</ComboboxEmpty>
+                                            <ComboboxList>
+                                            {(item) => (
+                                                <ComboboxItem key={item} value={item}>
+                                                {item}
+                                                </ComboboxItem>
+                                            )}
+                                            </ComboboxList>
+                                        </ComboboxContent>
+                                    </Combobox>
+                                </Field>
+                                <Field className="max-w-1/8">
+                                    <Popover>
+                                        <PopoverTrigger asChild>
+                                            <Button
+                                                variant="outline"
+                                                id="departure_date"
+                                                className="justify-start font-normal"
+                                            >
+                                                <CalendarIcon /> Filtra Partenza
+                                            </Button>
+                                        </PopoverTrigger>
+                                        <PopoverContent>
+                                            <Calendar
+                                                mode="single"
+                                                selected={new Date()}
+                                                captionLayout="dropdown"
+                                                required
+                                            />
+                                        </PopoverContent>
+                                    </Popover>
+                                </Field>
+                                <Field className="max-w-1/8">
+                                    <Popover>
+                                        <PopoverTrigger asChild>
+                                            <Button
+                                                variant="outline"
+                                                id="delivery_date"
+                                                className="justify-start font-normal"
+                                            >
+                                                <CalendarIcon /> Filtra Consegna
+                                            </Button>
+                                        </PopoverTrigger>
+                                        <PopoverContent >
+                                            <Calendar
+                                                mode="single"
+                                                selected={new Date()}
+                                                captionLayout="dropdown"
+                                                required
+                                            />
+                                        </PopoverContent>
+                                    </Popover>
+                                </Field>
                             </Field>
-
+                            
                         </FieldGroup>
                         <Table>
                             <TableHeader>
@@ -55,7 +125,7 @@ export default function index({shipments = []}: Props) {
                                     <TableHead>Tracking Number</TableHead>
                                     <TableHead>Destinatario</TableHead>
                                     <TableHead>Indirizzo</TableHead>
-                                    <TableHead>Peso</TableHead>
+                                    <TableHead>Peso(Kg)</TableHead>
                                     <TableHead>Data di Partenza</TableHead>
                                     <TableHead>Data di Consegna</TableHead>
                                     <TableHead>Stato</TableHead>
