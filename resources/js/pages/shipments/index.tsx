@@ -1,10 +1,28 @@
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Head } from "@inertiajs/react";
+import { MoreHorizontalIcon } from "lucide-react";
 
 
+interface Shipment {
+    id: number;
+    tracking_number: string;
+    recipient_name: string;
+    address: string;
+    weight: number;
+    departure_date: string;
+    delivery_date: string;
+    status: string;
+}
 
-export default function index() {
+interface Props {
+    shipments: Shipment[];
+}
+
+
+export default function index({shipments = []}: Props) {
 
 
 
@@ -31,17 +49,38 @@ export default function index() {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                <TableRow>
-                                <TableCell>-</TableCell>
-                                <TableCell>-</TableCell>
-                                <TableCell>-</TableCell>
-                                <TableCell>-</TableCell>
-                                <TableCell>-</TableCell>
-                                <TableCell>-</TableCell>
-                                <TableCell>-</TableCell>
-                                <TableCell className="text-right">-</TableCell>
-                                </TableRow>
+                                {shipments.map((shipment) => (
+                                    <TableRow key={shipment.id}>
+                                        <TableCell>{shipment.tracking_number}</TableCell>
+                                        <TableCell>{shipment.recipient_name}</TableCell>
+                                        <TableCell>{shipment.address}</TableCell>
+                                        <TableCell>{shipment.weight}</TableCell>
+                                        <TableCell>{shipment.departure_date}</TableCell>
+                                        <TableCell>{shipment.delivery_date}</TableCell>
+                                        <TableCell>{shipment.status}</TableCell>
+                                        <TableCell className="text-right">
+                                            <DropdownMenu>
+                                                <DropdownMenuTrigger asChild>
+                                                    <Button variant="ghost" size="icon" className="size-8">
+                                                        <MoreHorizontalIcon/>
+                                                        <span className="sr-only">Open menu</span>
+                                                    </Button>
+                                                </DropdownMenuTrigger>
+                                                <DropdownMenuContent align="end">
+                                                        <DropdownMenuItem>Dettaglio</DropdownMenuItem>
+                                                        <DropdownMenuSeparator />
+                                                        <DropdownMenuItem variant="destructive">
+                                                            Delete
+                                                        </DropdownMenuItem>
+                                                    </DropdownMenuContent>
+                                            </DropdownMenu>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
                             </TableBody>
+                            {shipments.length === 0 && (
+                                    <TableCaption>Nessuna Spedizione Trovata.</TableCaption>
+                            )}
                         </Table>
                     </CardContent>
                     <CardFooter>

@@ -12,9 +12,10 @@ class ShipmentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        //
+    public function index() {
+        return Inertia::render('Shipments/Index', [
+            'shipments' => Shipment::latest()->get()
+        ]);
     }
 
     /**
