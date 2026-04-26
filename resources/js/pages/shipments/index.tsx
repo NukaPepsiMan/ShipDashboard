@@ -10,9 +10,9 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Separator } from "@/components/ui/separator";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Head, router } from "@inertiajs/react";
-import { format } from "date-fns";
+import { format, parse } from "date-fns";
 import { it } from "date-fns/locale";
-import { CalendarIcon, MoreHorizontalIcon, PackageIcon, SearchIcon, TrashIcon } from "lucide-react";
+import { CalendarIcon, MoreHorizontalIcon, PackageIcon, SearchIcon, TrashIcon, XIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 
 interface Shipment {
@@ -51,8 +51,8 @@ export default function index({shipments = [], filters}: Props) {
 
     const [searchTerm, setSearchTerm] = useState(filters?.search || null);
     const [statusFilter, setStatusFilter] = useState(filters?.status || null);
-    const [departureDate, setDepartureDate] = useState(filters?.departure_date || null);
-    const [deliveryDate, setDeliveryDate] = useState(filters?.delivery_date || null);
+    const [departureDate, setDepartureDate] = useState(filters?.departure_date ? parse(filters.departure_date, 'yyyy-MM-dd', new Date()) : undefined);
+    const [deliveryDate, setDeliveryDate] = useState(filters?.delivery_date ? parse(filters.delivery_date, 'yyyy-MM-dd', new Date()) : undefined);
 
 
     useEffect(() => {
@@ -108,49 +108,79 @@ export default function index({shipments = [], filters}: Props) {
                                         </ComboboxContent>
                                     </Combobox>
                                 </Field>
-                                <Field className="max-w-1/8">
-                                    <Popover>
-                                        <PopoverTrigger asChild>
-                                            <Button
-                                                variant="outline"
-                                                id="departure_date"
-                                                className="justify-start font-normal"
+                                <Field className="w-auto">
+                                    <div className="flex items-center gap-1">
+                                        <Popover>
+                                            <PopoverTrigger asChild>
+                                                <Button
+                                                    variant="outline"
+                                                    id="departure_date"
+                                                    className="justify-start font-normal"
+                                                >
+                                                    <CalendarIcon /> {departureDate ? format(departureDate, 'PPP', {locale: it}) : "Filtra partenza"}
+                                                </Button>
+                                            </PopoverTrigger>
+                                            <PopoverContent>
+                                                <Calendar
+                                                    mode="single"
+                                                    selected={departureDate}
+                                                    onSelect={setDepartureDate}
+                                                    captionLayout="dropdown"
+                                                    locale={it}
+                                                />
+                                            </PopoverContent>
+                                        </Popover>
+                                        {departureDate && (
+                                            <Button 
+                                                variant="ghost" 
+                                                size="icon" 
+                                                className="text-muted-foreground hover:text-foreground"
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    setDepartureDate(undefined);
+                                                }}
                                             >
-                                                <CalendarIcon /> {departureDate ? format(departureDate, 'PPP', {locale: it}) : "Filtra Partenza"}
+                                                <XIcon className="h-4 w-4" />
                                             </Button>
-                                        </PopoverTrigger>
-                                        <PopoverContent>
-                                            <Calendar
-                                                mode="single"
-                                                selected={departureDate}
-                                                onSelect={setDeliveryDate}
-                                                captionLayout="dropdown"
-                                                required
-                                            />
-                                        </PopoverContent>
-                                    </Popover>
+                                        )}
+                                    </div>
                                 </Field>
-                                <Field className="max-w-1/8">
-                                    <Popover>
-                                        <PopoverTrigger asChild>
-                                            <Button
-                                                variant="outline"
-                                                id="delivery_date"
-                                                className="justify-start font-normal"
+                                <Field className="w-auto">
+                                    <div className="flex items-center gap-1">
+                                        <Popover>
+                                            <PopoverTrigger asChild>
+                                                <Button
+                                                    variant="outline"
+                                                    id="delivery_date"
+                                                    className="justify-start font-normal"
+                                                >
+                                                    <CalendarIcon /> {deliveryDate ? format(deliveryDate, 'PPP', {locale: it}) : "Filtra consegna"}
+                                                </Button>
+                                            </PopoverTrigger>
+                                            <PopoverContent >
+                                                <Calendar
+                                                    mode="single"
+                                                    selected={deliveryDate}
+                                                    onSelect={setDeliveryDate}
+                                                    captionLayout="dropdown"
+                                                    locale={it}
+                                                />
+                                            </PopoverContent>
+                                        </Popover>
+                                        {deliveryDate && (
+                                            <Button 
+                                                variant="ghost" 
+                                                size="icon" 
+                                                className="text-muted-foreground hover:text-foreground"
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    setDeliveryDate(undefined);
+                                                }}
                                             >
-                                                <CalendarIcon /> Filtra Consegna
+                                                <XIcon className="h-4 w-4" />
                                             </Button>
-                                        </PopoverTrigger>
-                                        <PopoverContent >
-                                            <Calendar
-                                                mode="single"
-                                                selected={deliveryDate}
-                                                onSelect={setDepartureDate}
-                                                captionLayout="dropdown"
-                                                required
-                                            />
-                                        </PopoverContent>
-                                    </Popover>
+                                        )}
+                                    </div>
                                 </Field>
                             </Field>
                             
@@ -175,8 +205,8 @@ export default function index({shipments = [], filters}: Props) {
                                         <TableCell>{shipment.recipient_name}</TableCell>
                                         <TableCell>{shipment.address}</TableCell>
                                         <TableCell>{shipment.weight}</TableCell>
-                                        <TableCell>{shipment.departure_date}</TableCell>
-                                        <TableCell>{shipment.delivery_date}</TableCell>
+                                        <TableCell>{shipment.departure_date ? format(new Date(shipment.departure_date), 'PPP', {locale: it}) : ''}</TableCell>
+                                        <TableCell>{shipment.delivery_date ? format(new Date(shipment.delivery_date), 'PPP', {locale: it}) : ''}</TableCell>
                                         <TableCell>{getStatusLabel(shipment.status)}</TableCell>
                                         <TableCell className="text-right">
                                             <DropdownMenu>
