@@ -4,7 +4,7 @@ use App\Http\Controllers\ShipmentController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 
-Route::inertia('/', 'shipments/create')->name('home');
+Route::inertia('/', 'shipments/index')->name('home');
 Route::resource('shipments', ShipmentController::class);
 
 Route::middleware(['auth', 'verified'])->group(function () {
