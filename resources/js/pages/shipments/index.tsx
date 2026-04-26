@@ -72,7 +72,7 @@ export default function index({shipments = [], filters}: Props) {
             <div className="p-8 space-y-6">
                 <Card>
                     <CardHeader>
-                        <CardTitle>Lista Spedizioni</CardTitle>
+                        <CardTitle className="text-center">Lista Spedizioni</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <FieldGroup>
