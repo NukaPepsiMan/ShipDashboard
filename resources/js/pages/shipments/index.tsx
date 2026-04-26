@@ -1,9 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
+import { Separator } from "@/components/ui/separator";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Head, router } from "@inertiajs/react";
-import { MoreHorizontalIcon, PackageIcon, TrashIcon } from "lucide-react";
+import { MoreHorizontalIcon, PackageIcon, SearchIcon, TrashIcon } from "lucide-react";
 
 
 interface Shipment {
@@ -35,6 +38,17 @@ export default function index({shipments = []}: Props) {
                         <CardTitle>Lista Spedizioni</CardTitle>
                     </CardHeader>
                     <CardContent>
+                        <FieldGroup>
+                            <Field className="max-w">
+                                <InputGroup>
+                                    <InputGroupInput id="inline-start-input" placeholder="Cerca per tracking, destinatario o indirizzo..." />
+                                    <InputGroupAddon align="inline-start">
+                                    <SearchIcon className="text-muted-foreground" />
+                                    </InputGroupAddon>
+                                </InputGroup>
+                            </Field>
+                            
+                        </FieldGroup>
                         <Table>
                             <TableHeader>
                                 <TableRow>
