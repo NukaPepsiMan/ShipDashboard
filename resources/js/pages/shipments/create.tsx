@@ -12,7 +12,7 @@ import { error } from "console"
 import { CalendarIcon } from "lucide-react"
 
 
-export default function Create(){
+export default function create(){
 
     const {data, setData, post, processing, errors} = useForm({
         recipient_name: '',

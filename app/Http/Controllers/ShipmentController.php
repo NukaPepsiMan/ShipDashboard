@@ -13,7 +13,7 @@ class ShipmentController extends Controller
      * Display a listing of the resource.
      */
     public function index() {
-        return Inertia::render('Shipments/Index', [
+        return Inertia::render('shipments/index', [
             'shipments' => Shipment::latest()->get()
         ]);
     }
@@ -22,7 +22,7 @@ class ShipmentController extends Controller
      * Show the form for creating a new resource.
      */
     public function create() {
-        return Inertia::render('Shipments/Create');
+        return Inertia::render('shipments/create');
     }
 
     /**
@@ -30,6 +30,7 @@ class ShipmentController extends Controller
      */
     public function store(StoreShipmentRequest $request) {
         Shipment::create($request->validated());
+        redirect()->route('shipments.index');
     }
 
     /**
