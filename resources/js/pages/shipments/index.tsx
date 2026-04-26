@@ -69,7 +69,7 @@ export default function index({shipments = [], filters}: Props) {
     return (
         <>
             <Head title="Spedizioni"/>
-            <div>
+            <div className="p-8 space-y-6">
                 <Card>
                     <CardHeader>
                         <CardTitle>Lista Spedizioni</CardTitle>
