@@ -11,6 +11,7 @@ import { Separator } from "@/components/ui/separator";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Head, router } from "@inertiajs/react";
 import { CalendarIcon, MoreHorizontalIcon, PackageIcon, SearchIcon, TrashIcon } from "lucide-react";
+import { useEffect, useState } from "react";
 
 
 interface Shipment {
@@ -26,6 +27,9 @@ interface Shipment {
 
 interface Props {
     shipments: Shipment[];
+    filters: {
+        search: string;
+    }
 }
 
 const enumStatus = [
@@ -36,7 +40,15 @@ const enumStatus = [
   ] as const
 
 
-export default function index({shipments = []}: Props) {
+export default function index({shipments = [], filters}: Props) {
+
+    const [searchTerm, setSearchTerm] = useState(filters?.search || "");
+
+    useEffect(() => {
+        router.get('/shipments',
+             {search: searchTerm}, 
+             {preserveState: true, replace: true, preserveScroll: true});
+    }, [searchTerm]);
 
     return (
         <>
@@ -51,7 +63,12 @@ export default function index({shipments = []}: Props) {
                             <Field orientation={"horizontal"}>
                                 <Field className="max-w-full">
                                     <InputGroup>
-                                        <InputGroupInput id="inline-start-input" placeholder="Cerca per tracking, destinatario o indirizzo..." />
+                                        <InputGroupInput 
+                                            id="inline-start-input" 
+                                            placeholder="Cerca per tracking, destinatario o indirizzo..." 
+                                            value={searchTerm}
+                                            onChange={(e) => setSearchTerm(e.target.value)}
+                                        />
                                         <InputGroupAddon align="inline-start">
                                         <SearchIcon className="text-muted-foreground" />
                                         </InputGroupAddon>

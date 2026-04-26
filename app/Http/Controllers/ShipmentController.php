@@ -12,9 +12,20 @@ class ShipmentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index() {
+    public function index(Request $request) {
+
+        $query = Shipment::query();
+
+        if($request->filled('search')){
+            $search = $request->input('search');
+            $query->where('tracking_number', 'like', "%{$search}%")
+                ->orWhere('recipient_name', 'like', "%{$search}%")
+                ->orWhere('address', 'like', "%$search%");
+        }
+
         return Inertia::render('shipments/index', [
-            'shipments' => Shipment::latest()->get()
+            'shipments' => $query->latest()->get(),
+            'filters' => $request->only(['search'])
         ]);
     }
 
