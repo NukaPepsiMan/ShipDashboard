@@ -18,8 +18,8 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+            'name' => 'AdminUser',
+            'email' => 'admin@example.com',
         ]);
 
         //Popolo il DB con i dati generati dai factory
