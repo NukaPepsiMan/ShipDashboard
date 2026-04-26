@@ -10,6 +10,8 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Separator } from "@/components/ui/separator";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Head, router } from "@inertiajs/react";
+import { format } from "date-fns";
+import { it } from "date-fns/locale";
 import { CalendarIcon, MoreHorizontalIcon, PackageIcon, SearchIcon, TrashIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -29,6 +31,8 @@ interface Props {
     filters: {
         search: string;
         status: string;
+        departure_date: string;
+        delivery_date: string;
     }
 }
 
@@ -47,12 +51,20 @@ export default function index({shipments = [], filters}: Props) {
 
     const [searchTerm, setSearchTerm] = useState(filters?.search || null);
     const [statusFilter, setStatusFilter] = useState(filters?.status || null);
+    const [departureDate, setDepartureDate] = useState(filters?.departure_date || null);
+    const [deliveryDate, setDeliveryDate] = useState(filters?.delivery_date || null);
+
 
     useEffect(() => {
         router.get('/shipments',
-             {search: searchTerm, status: statusFilter}, 
+             {
+                 search: searchTerm, 
+                 status: statusFilter,
+                 departure_date: departureDate ? format(departureDate, 'yyyy-MM-dd') : null,
+                 delivery_date: deliveryDate ? format(deliveryDate, 'yyyy-MM-dd') : null
+             }, 
              {preserveState: true, replace: true, preserveScroll: true});
-    }, [searchTerm, statusFilter]);
+    }, [searchTerm, statusFilter, departureDate, deliveryDate]);
 
     return (
         <>
@@ -104,13 +116,14 @@ export default function index({shipments = [], filters}: Props) {
                                                 id="departure_date"
                                                 className="justify-start font-normal"
                                             >
-                                                <CalendarIcon /> Filtra Partenza
+                                                <CalendarIcon /> {departureDate ? format(departureDate, 'PPP', {locale: it}) : "Filtra Partenza"}
                                             </Button>
                                         </PopoverTrigger>
                                         <PopoverContent>
                                             <Calendar
                                                 mode="single"
-                                                selected={new Date()}
+                                                selected={departureDate}
+                                                onSelect={setDeliveryDate}
                                                 captionLayout="dropdown"
                                                 required
                                             />
@@ -131,7 +144,8 @@ export default function index({shipments = [], filters}: Props) {
                                         <PopoverContent >
                                             <Calendar
                                                 mode="single"
-                                                selected={new Date()}
+                                                selected={deliveryDate}
+                                                onSelect={setDepartureDate}
                                                 captionLayout="dropdown"
                                                 required
                                             />

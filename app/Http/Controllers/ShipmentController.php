@@ -29,9 +29,17 @@ class ShipmentController extends Controller
             $query->where('status', $request->status);
         }
 
+        if($request->filled('departure_date')){
+            $query->whereDate('departure_date', '>=', $request->departure_date);
+        }
+
+        if($request->filled('delivery_date')){
+            $query->whereDate('delivery_date', '<=', $request->delivery_date);
+        }
+
         return Inertia::render('shipments/index', [
             'shipments' => $query->latest()->get(),
-            'filters' => $request->only(['search','status'])
+            'filters' => $request->only(['search','status', 'departure_date', 'delivery_date'])
         ]);
     }
 
