@@ -43,104 +43,109 @@ export default function Create(){
     return (
         <>
             <Head title="Nuova spedizione"/>
-            <div className="">
-                <Card>
+            <div className="p-8">
+                <Card className=" mx-auto max-w-2xl gap-4">
                     <CardHeader>
                         <CardTitle className="text-2xl">Crea Nuova Spedizione</CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <FieldGroup>
-                            <Field>
-                                <FieldLabel>Nome Destinatario</FieldLabel>
-                                <Input 
-                                    id="recipient_name" 
-                                    type="text" 
-                                    value={data.recipient_name}
-                                    onChange={e => setData('recipient_name', e.target.value)}
-                                    required
-                                    />
-                                <InputError message={errors.recipient_name}/>
-                            </Field>
-                            <Field>
-                                <FieldLabel>Indrizzo</FieldLabel>
-                                <Input 
-                                    id="address" 
-                                    type="text" 
-                                    value={data.address}
-                                    onChange={e => setData('address', e.target.value)}
-                                    required
-                                    />
-                                <InputError message={errors.address}/>
-                            </Field>
-                            <Field>
-                                <FieldLabel>Peso (Kg)</FieldLabel>
-                                <Input 
-                                    id="weight" 
-                                    type="number"
-                                    step="0.1" 
-                                    value={data.weight}
-                                    onChange={e => setData('weight', e.target.value)}
-                                    required
-                                    />
-                                <InputError message={errors.weight}/>
-                            </Field>
-                            <Field orientation="horizontal">
+                        <form id="create-shipment-form" onSubmit={submit}>
+                            <FieldGroup>
                                 <Field>
-                                    <FieldLabel>Data di partenza</FieldLabel>
-                                    <Popover>
-                                        <PopoverTrigger asChild>
-                                            <Button
-                                                variant="outline"
-                                                id="departure_date"
-                                                className="justify-start font-normal"
-                                            >
-                                                <CalendarIcon />
-                                                {displayDate(data.departure_date)}
-                                            </Button>
-                                        </PopoverTrigger>
-                                        <PopoverContent>
-                                            <Calendar
-                                                mode="single"
-                                                selected={parseDate(data.departure_date)}
-                                                onSelect={(date) => setData('departure_date', formatDate(date))}
-                                                captionLayout="dropdown"
-                                            />
-                                        </PopoverContent>
-                                    </Popover>
+                                    <FieldLabel>Nome Destinatario</FieldLabel>
+                                    <Input 
+                                        id="recipient_name" 
+                                        type="text" 
+                                        value={data.recipient_name}
+                                        onChange={e => setData('recipient_name', e.target.value)}
+                                        required
+                                        />
+                                    <InputError message={errors.recipient_name}/>
                                 </Field>
                                 <Field>
-                                    <FieldLabel>Data di consegna</FieldLabel>
-                                    <Popover>
-                                        <PopoverTrigger asChild>
-                                            <Button
-                                                variant="outline"
-                                                id="date-picker-simple"
-                                                className="justify-start font-normal"
-                                            >
-                                                <CalendarIcon />
-                                                {displayDate(data.delivery_date)}
-                                            </Button>
-                                        </PopoverTrigger>
-                                        <PopoverContent >
-                                            <Calendar
-                                                mode="single"
-                                                selected={parseDate(data.delivery_date)}
-                                                onSelect={(date) => setData('delivery_date', formatDate(date))}
-                                                locale={it}
-                                                captionLayout="dropdown"
-                                            />
-                                        </PopoverContent>
-                                    </Popover>
+                                    <FieldLabel>Indrizzo</FieldLabel>
+                                    <Input 
+                                        id="address" 
+                                        type="text" 
+                                        value={data.address}
+                                        onChange={e => setData('address', e.target.value)}
+                                        required
+                                        />
+                                    <InputError message={errors.address}/>
                                 </Field>
-                            </Field>
-                            
-                        </FieldGroup>
+                                <Field>
+                                    <FieldLabel>Peso (Kg)</FieldLabel>
+                                    <Input 
+                                        id="weight" 
+                                        type="number"
+                                        step="0.1" 
+                                        value={data.weight}
+                                        onChange={e => setData('weight', e.target.value)}
+                                        required
+                                        />
+                                    <InputError message={errors.weight}/>
+                                </Field>
+                                <Field orientation="horizontal">
+                                    <Field>
+                                        <FieldLabel>Data di partenza</FieldLabel>
+                                        <Popover>
+                                            <PopoverTrigger asChild>
+                                                <Button
+                                                    variant="outline"
+                                                    id="departure_date"
+                                                    className="justify-start font-normal"
+                                                >
+                                                    <CalendarIcon />
+                                                    {displayDate(data.departure_date)}
+                                                </Button>
+                                            </PopoverTrigger>
+                                            <PopoverContent>
+                                                <Calendar
+                                                    mode="single"
+                                                    selected={parseDate(data.departure_date)}
+                                                    onSelect={(date) => setData('departure_date', formatDate(date))}
+                                                    captionLayout="dropdown"
+                                                    required
+                                                />
+                                            </PopoverContent>
+                                        </Popover>
+                                        <InputError message={errors.departure_date}/>
+                                    </Field>
+                                    <Field>
+                                        <FieldLabel>Data di consegna</FieldLabel>
+                                        <Popover>
+                                            <PopoverTrigger asChild>
+                                                <Button
+                                                    variant="outline"
+                                                    id="delivery_date"
+                                                    className="justify-start font-normal"
+                                                >
+                                                    <CalendarIcon />
+                                                    {displayDate(data.delivery_date)}
+                                                </Button>
+                                            </PopoverTrigger>
+                                            <PopoverContent >
+                                                <Calendar
+                                                    mode="single"
+                                                    selected={parseDate(data.delivery_date)}
+                                                    onSelect={(date) => setData('delivery_date', formatDate(date))}
+                                                    locale={it}
+                                                    captionLayout="dropdown"
+                                                    required
+                                                />
+                                            </PopoverContent>
+                                        </Popover>
+                                        <InputError message={errors.delivery_date}/>
+                                    </Field>
+                                </Field>
+                            </FieldGroup>
+                        </form>
                     </CardContent>
                     <CardFooter className="justify-end pt-4 gap-4">
                         <Button variant="outline" asChild>
                            <Link href="/shipments">Annulla</Link>  
                         </Button>
-                        <Button type="submit" disabled={processing}>
+                        <Button type="submit" form="create-shipment-form" disabled={processing}>
                             Crea Spedizone
                         </Button>
                     </CardFooter>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreShipmentRequest;
 use App\Models\Shipment;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -26,9 +27,8 @@ class ShipmentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        //
+    public function store(StoreShipmentRequest $request) {
+        Shipment::create($request->validated());
     }
 
     /**
