@@ -17,15 +17,21 @@ class ShipmentController extends Controller
         $query = Shipment::query();
 
         if($request->filled('search')){
-            $search = $request->input('search');
-            $query->where('tracking_number', 'like', "%{$search}%")
-                ->orWhere('recipient_name', 'like', "%{$search}%")
-                ->orWhere('address', 'like', "%$search%");
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('tracking_number', 'like', "%{$search}%")
+                  ->orWhere('recipient_name', 'like', "%{$search}%")
+                  ->orWhere('address', 'like', "%{$search}%");
+            });
+        }
+
+        if($request->filled('status')){
+            $query->where('status', $request->status);
         }
 
         return Inertia::render('shipments/index', [
             'shipments' => $query->latest()->get(),
-            'filters' => $request->only(['search'])
+            'filters' => $request->only(['search','status'])
         ]);
     }
 

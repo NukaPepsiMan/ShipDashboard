@@ -13,7 +13,6 @@ import { Head, router } from "@inertiajs/react";
 import { CalendarIcon, MoreHorizontalIcon, PackageIcon, SearchIcon, TrashIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 
-
 interface Shipment {
     id: number;
     tracking_number: string;
@@ -29,26 +28,31 @@ interface Props {
     shipments: Shipment[];
     filters: {
         search: string;
+        status: string;
     }
 }
 
-const enumStatus = [
-    "In Attesa",
-    "In Transito",
-    "Cancellato",
-    "Consegnato"
-  ] as const
+const statusOptions = [
+    { value: "pending", label: "In Attesa" },
+    { value: "in_transit", label: "In Transito" },
+    { value: "cancelled", label: "Cancellato" },
+    { value: "delivered", label: "Consegnato" }
+]
 
+const getStatusLabel = (status: string) => {
+    return statusOptions.find(o => o.value === status)?.label || status;
+}
 
 export default function index({shipments = [], filters}: Props) {
 
-    const [searchTerm, setSearchTerm] = useState(filters?.search || "");
+    const [searchTerm, setSearchTerm] = useState(filters?.search || null);
+    const [statusFilter, setStatusFilter] = useState(filters?.status || null);
 
     useEffect(() => {
         router.get('/shipments',
-             {search: searchTerm}, 
+             {search: searchTerm, status: statusFilter}, 
              {preserveState: true, replace: true, preserveScroll: true});
-    }, [searchTerm]);
+    }, [searchTerm, statusFilter]);
 
     return (
         <>
@@ -75,14 +79,17 @@ export default function index({shipments = [], filters}: Props) {
                                     </InputGroup>
                                 </Field>
                                 <Field className="max-w-1/8">
-                                    <Combobox items={enumStatus}>
+                                    <Combobox 
+                                        items={statusOptions}
+                                        value={statusFilter}
+                                        onValueChange={(e) => setStatusFilter(e)}
+                                    >
                                         <ComboboxInput placeholder="Seleziona stato" showClear />
                                         <ComboboxContent>
-                                            <ComboboxEmpty>No items found.</ComboboxEmpty>
                                             <ComboboxList>
                                             {(item) => (
-                                                <ComboboxItem key={item} value={item}>
-                                                {item}
+                                                <ComboboxItem key={item.value} value={item}>
+                                                {item.label}
                                                 </ComboboxItem>
                                             )}
                                             </ComboboxList>
@@ -156,7 +163,7 @@ export default function index({shipments = [], filters}: Props) {
                                         <TableCell>{shipment.weight}</TableCell>
                                         <TableCell>{shipment.departure_date}</TableCell>
                                         <TableCell>{shipment.delivery_date}</TableCell>
-                                        <TableCell>{shipment.status}</TableCell>
+                                        <TableCell>{getStatusLabel(shipment.status)}</TableCell>
                                         <TableCell className="text-right">
                                             <DropdownMenu>
                                                 <DropdownMenuTrigger asChild>
