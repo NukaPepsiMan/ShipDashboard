@@ -62,6 +62,7 @@ class ShipmentController extends Controller
      */
     public function destroy(Shipment $shipment)
     {
-        //
+        $shipment->delete();
+        redirect()->route('shipments.index');
     }
 }

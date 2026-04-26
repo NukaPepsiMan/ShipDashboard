@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Head } from "@inertiajs/react";
+import { Head, router } from "@inertiajs/react";
 import { MoreHorizontalIcon, PackageIcon, TrashIcon } from "lucide-react";
 
 
@@ -38,9 +38,9 @@ export default function index({shipments = []}: Props) {
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead>Tracking number</TableHead>
+                                    <TableHead>Tracking Number</TableHead>
                                     <TableHead>Destinatario</TableHead>
-                                    <TableHead>Indrizzo</TableHead>
+                                    <TableHead>Indirizzo</TableHead>
                                     <TableHead>Peso</TableHead>
                                     <TableHead>Data di Partenza</TableHead>
                                     <TableHead>Data di Consegna</TableHead>
@@ -71,7 +71,9 @@ export default function index({shipments = []}: Props) {
                                                             <PackageIcon/>Dettaglio
                                                         </DropdownMenuItem>
                                                         <DropdownMenuSeparator />
-                                                        <DropdownMenuItem variant="destructive">
+                                                        <DropdownMenuItem 
+                                                            variant="destructive"
+                                                            onClick={() => router.delete('/shipments/'+ shipment.id)}>
                                                             <TrashIcon/>Delete
                                                         </DropdownMenuItem>
                                                     </DropdownMenuContent>
