@@ -38,8 +38,6 @@ const enumStatus = [
 
 export default function index({shipments = []}: Props) {
 
-
-
     return (
         <>
             <Head title="Spedizioni"/>
