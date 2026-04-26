@@ -47,7 +47,7 @@ export default function index({shipments = []}: Props) {
                                     </InputGroupAddon>
                                 </InputGroup>
                             </Field>
-                            
+
                         </FieldGroup>
                         <Table>
                             <TableHeader>
@@ -81,7 +81,9 @@ export default function index({shipments = []}: Props) {
                                                     </Button>
                                                 </DropdownMenuTrigger>
                                                 <DropdownMenuContent align="end">
-                                                        <DropdownMenuItem>
+                                                        <DropdownMenuItem
+                                                            onClick={() => router.get('/shipments/' + shipment.id)}
+                                                        >
                                                             <PackageIcon/>Dettaglio
                                                         </DropdownMenuItem>
                                                         <DropdownMenuSeparator />

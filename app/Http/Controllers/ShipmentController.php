@@ -36,9 +36,10 @@ class ShipmentController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Shipment $shipment)
-    {
-        //
+    public function show(Shipment $shipment) {
+        return Inertia::render('shipments/show', [
+            'shipment' => $shipment
+        ]);
     }
 
     /**
