@@ -4,7 +4,7 @@ use App\Http\Controllers\ShipmentController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 
-Route::redirect('/', '/shipments');
+Route::redirect('/', '/shipments')->name('home');
 Route::resource('shipments', ShipmentController::class);
 
 Route::middleware(['auth', 'verified'])->group(function () {

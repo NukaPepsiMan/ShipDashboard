@@ -3,7 +3,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Head } from "@inertiajs/react";
-import { MoreHorizontalIcon } from "lucide-react";
+import { MoreHorizontalIcon, PackageIcon, TrashIcon } from "lucide-react";
 
 
 interface Shipment {
@@ -67,10 +67,12 @@ export default function index({shipments = []}: Props) {
                                                     </Button>
                                                 </DropdownMenuTrigger>
                                                 <DropdownMenuContent align="end">
-                                                        <DropdownMenuItem>Dettaglio</DropdownMenuItem>
+                                                        <DropdownMenuItem>
+                                                            <PackageIcon/>Dettaglio
+                                                        </DropdownMenuItem>
                                                         <DropdownMenuSeparator />
                                                         <DropdownMenuItem variant="destructive">
-                                                            Delete
+                                                            <TrashIcon/>Delete
                                                         </DropdownMenuItem>
                                                     </DropdownMenuContent>
                                             </DropdownMenu>
