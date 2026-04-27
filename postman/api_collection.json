@@ -1,0 +1,200 @@
+{
+    "info": {
+      "name": "ShipDashboard API",
+      "description": "Collezione API",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+      {
+        "name": "Shipments",
+        "description": "Endpoint per la gestione delle spedizioni",
+        "item": [
+          {
+            "name": "Get all Shipments",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Accept",
+                  "value": "application/json",
+                  "type": "text"
+                }
+              ],
+              "url": {
+                "raw": "{{base_url}}/shipments",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "shipments"
+                ]
+              },
+              "description": "Ottiene la lista paginata di tutte le spedizioni."
+            }
+          },
+          {
+            "name": "Get single Shipment",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Accept",
+                  "value": "application/json",
+                  "type": "text"
+                }
+              ],
+              "url": {
+                "raw": "{{base_url}}/shipments/:id",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "shipments",
+                  ":id"
+                ],
+                "variable": [
+                  {
+                    "key": "id",
+                    "value": "1",
+                    "description": "ID della spedizione"
+                  }
+                ]
+              },
+              "description": "Ottiene i dettagli di una singola spedizione con i relativi Tracking Events."
+            }
+          },
+          {
+            "name": "Create Shipment",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Accept",
+                  "value": "application/json",
+                  "type": "text"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "type": "text"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"recipient_name\": \"Mario Rossi\",\n    \"address\": \"Via Roma 1, 00100 Roma (RM)\",\n    \"weight\": 2.5,\n    \"departure_date\": \"2026-05-01\",\n    \"delivery_date\": \"2026-05-05\"\n}"
+              },
+              "url": {
+                "raw": "{{base_url}}/shipments",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "shipments"
+                ]
+              },
+              "description": "Crea una nuova spedizione."
+            }
+          },
+          {
+            "name": "Update Shipment",
+            "request": {
+              "method": "PUT",
+              "header": [
+                {
+                  "key": "Accept",
+                  "value": "application/json",
+                  "type": "text"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "type": "text"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"recipient_name\": \"Mario Rossi Updated\",\n    \"address\": \"Via Milano 2, 20100 Milano (MI)\",\n    \"weight\": 3.0,\n    \"departure_date\": \"2026-05-01\",\n    \"delivery_date\": \"2026-05-10\"\n}"
+              },
+              "url": {
+                "raw": "{{base_url}}/shipments/:id",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "shipments",
+                  ":id"
+                ],
+                "variable": [
+                  {
+                    "key": "id",
+                    "value": "1",
+                    "description": "ID della spedizione da aggiornare"
+                  }
+                ]
+              },
+              "description": "Aggiorna un'intera spedizione."
+            }
+          },
+          {
+            "name": "Delete Shipment",
+            "request": {
+              "method": "DELETE",
+              "header": [
+                {
+                  "key": "Accept",
+                  "value": "application/json",
+                  "type": "text"
+                }
+              ],
+              "url": {
+                "raw": "{{base_url}}/shipments/:id",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "shipments",
+                  ":id"
+                ],
+                "variable": [
+                  {
+                    "key": "id",
+                    "value": "1",
+                    "description": "ID della spedizione da eliminare"
+                  }
+                ]
+              },
+              "description": "Elimina una spedizione esistente."
+            }
+          }
+        ]
+      }
+    ],
+    "event": [
+      {
+        "listen": "prerequest",
+        "script": {
+          "type": "text/javascript",
+          "exec": [
+            ""
+          ]
+        }
+      },
+      {
+        "listen": "test",
+        "script": {
+          "type": "text/javascript",
+          "exec": [
+            ""
+          ]
+        }
+      }
+    ],
+    "variable": [
+      {
+        "key": "base_url",
+        "value": "http://localhost:8000/api",
+        "type": "string",
+        "description": "Base URL"
+      }
+    ]
+  }
