@@ -23,6 +23,6 @@ class DatabaseSeeder extends Seeder
         ]);
 
         //Popolo il DB con i dati generati dai factory
-        Shipment::factory(3)->hasTrackingEvents(3)->create();
+        Shipment::factory(7)->hasTrackingEvents(3)->create();
     }
 }
